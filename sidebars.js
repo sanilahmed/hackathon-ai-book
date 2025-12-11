@@ -107,7 +107,8 @@ const sidebars = {
         'reference/glossary',
         'reference/citations'
       ],
-    }
+    },
+    'roadmap'
   ],
 };
 

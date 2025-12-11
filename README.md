@@ -71,4 +71,4 @@ This project is licensed under [LICENSE] - see the LICENSE file for details.
 
 ## Acknowledgments
 
-This book builds upon the foundational work of the ROS, Gazebo, Unity, NVIDIA Isaac, and Docusaurus communities.# Hackathon
+This book builds upon the foundational work of the ROS, Gazebo, Unity, NVIDIA Isaac, and Docusaurus communities.
