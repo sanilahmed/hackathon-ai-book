@@ -1,0 +1,159 @@
+# Gazebo-ROS 2 Bridge Configuration for Humanoid Robot
+
+# Bridge parameters
+gazebo_ros_bridge:
+  ros__parameters:
+    # Topics to bridge from Gazebo to ROS 2
+    gazebo_to_ros_topics:
+      - name: "/clock"
+        gz_type: "gz.msgs.Clock"
+        ros_type: "builtin_interfaces/msg/Clock"
+        gz_name: "/clock"
+        frequency: 0  # Always publish
+
+    # Joint state publisher
+    joint_state_publisher:
+      ros__parameters:
+        use_sim_time: true
+        publish_frequency: 50.0
+        robot_description_topic: "robot_description"
+
+    # Sensor bridge configurations
+    sensor_bridge:
+      ros__parameters:
+        # Camera sensor
+        camera_bridge:
+          topic_name: "/humanoid/camera/image_raw"
+          gz_topic: "/humanoid/camera/image"
+          gz_type: "gz.msgs.Image"
+          ros_type: "sensor_msgs/msg/Image"
+
+        # IMU sensor
+        imu_bridge:
+          topic_name: "/humanoid/imu"
+          gz_topic: "/humanoid/imu"
+          gz_type: "gz.msgs.IMU"
+          ros_type: "sensor_msgs/msg/Imu"
+
+        # LiDAR sensor
+        lidar_bridge:
+          topic_name: "/humanoid/scan"
+          gz_topic: "/humanoid/lidar/scan"
+          gz_type: "gz.msgs.LaserScan"
+          ros_type: "sensor_msgs/msg/LaserScan"
+
+    # Actuator bridge configurations
+    actuator_bridge:
+      ros__parameters:
+        # Joint state publisher
+        joint_state_publisher:
+          topic_name: "/joint_states"
+          gz_topic: "/world/humanoid_world/model/humanoid_robot/joint_state"
+          gz_type: "gz.msgs.Model"
+          ros_type: "sensor_msgs/msg/JointState"
+          frequency: 100
+
+        # Joint trajectory controller
+        joint_trajectory_bridge:
+          topic_name: "/joint_trajectory_controller/joint_trajectory"
+          gz_topic: "/model/humanoid_robot/joint_trajectory"
+          gz_type: "gz.msgs.JointTrajectory"
+          ros_type: "trajectory_msgs/msg/JointTrajectory"
+
+    # TF broadcaster
+    tf_broadcaster:
+      ros__parameters:
+        use_sim_time: true
+        publish_frequency: 50.0
+        odom_frame: "odom"
+        base_frame: "base_link"
+
+# Controller manager settings
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+    use_sim_time: true
+
+    # Joint state broadcaster
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # Individual joint controllers
+    left_leg_controller:
+      type: position_controllers/JointGroupPositionController
+      joints:
+        - left_hip_joint
+        - left_knee_joint
+        - left_ankle_joint
+
+    right_leg_controller:
+      type: position_controllers/JointGroupPositionController
+      joints:
+        - right_hip_joint
+        - right_knee_joint
+        - right_ankle_joint
+
+    left_arm_controller:
+      type: position_controllers/JointGroupPositionController
+      joints:
+        - left_shoulder_joint
+        - left_elbow_joint
+
+    right_arm_controller:
+      type: position_controllers/JointGroupPositionController
+      joints:
+        - right_shoulder_joint
+        - right_elbow_joint
+
+# Specific controller parameters
+left_leg_controller:
+  ros__parameters:
+    left_hip_joint:
+      kp: 1000.0
+      ki: 0.0
+      kd: 50.0
+    left_knee_joint:
+      kp: 1000.0
+      ki: 0.0
+      kd: 50.0
+    left_ankle_joint:
+      kp: 500.0
+      ki: 0.0
+      kd: 25.0
+
+right_leg_controller:
+  ros__parameters:
+    right_hip_joint:
+      kp: 1000.0
+      ki: 0.0
+      kd: 50.0
+    right_knee_joint:
+      kp: 1000.0
+      ki: 0.0
+      kd: 50.0
+    right_ankle_joint:
+      kp: 500.0
+      ki: 0.0
+      kd: 25.0
+
+left_arm_controller:
+  ros__parameters:
+    left_shoulder_joint:
+      kp: 500.0
+      ki: 0.0
+      kd: 25.0
+    left_elbow_joint:
+      kp: 300.0
+      ki: 0.0
+      kd: 15.0
+
+right_arm_controller:
+  ros__parameters:
+    right_shoulder_joint:
+      kp: 500.0
+      ki: 0.0
+      kd: 25.0
+    right_elbow_joint:
+      kp: 300.0
+      ki: 0.0
+      kd: 15.0

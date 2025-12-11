@@ -1,0 +1,48 @@
+{
+  "rosBridgeSettings": {
+    "serverAddress": "localhost",
+    "serverPort": 10000,
+    "useSSL": false,
+    "connectionTimeout": 5000,
+    "reconnectDelay": 1000,
+    "maxReconnectAttempts": 10
+  },
+  "robotConfiguration": {
+    "robotName": "humanoid_robot",
+    "tfFramePrefix": "",
+    "jointStateTopic": "/joint_states",
+    "robotDescriptionTopic": "/robot_description",
+    "updateRate": 50,
+    "useSimTime": true
+  },
+  "sensorTopics": {
+    "cameraImageTopic": "/humanoid/camera/image_raw",
+    "cameraInfoTopic": "/humanoid/camera/camera_info",
+    "lidarScanTopic": "/humanoid/scan",
+    "imuTopic": "/humanoid/imu",
+    "odomTopic": "/humanoid/odom"
+  },
+  "actuatorTopics": {
+    "jointCommandTopic": "/joint_trajectory_controller/joint_trajectory",
+    "gripperCommandTopic": "/gripper_controller/command"
+  },
+  "visualizationSettings": {
+    "showCoordinateFrames": true,
+    "coordinateFrameAxisSize": 0.5,
+    "showJointAxes": true,
+    "jointAxisLength": 0.2,
+    "showContactPoints": false,
+    "contactPointSize": 0.05
+  },
+  "physicsSettings": {
+    "useGravity": true,
+    "gravity": [0, -9.81, 0],
+    "fixedTimestep": 0.02,
+    "maxAngularVelocity": 50
+  },
+  "loggingSettings": {
+    "enableLogging": true,
+    "logLevel": "INFO",
+    "logFilePath": "unity_ros_bridge.log"
+  }
+}

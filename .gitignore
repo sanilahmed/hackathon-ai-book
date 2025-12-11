@@ -1,0 +1,213 @@
+# ROS 2 specific
+build/
+install/
+log/
+*.pyc
+__pycache__/
+*.so
+*.o
+*.a
+*.dll
+*.dylib
+*.swp
+*.swo
+*.lock
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/modules/
+.pytest_cache/
+.hypothesis/
+
+# C++
+build/
+bin/
+obj/
+out/
+*.o
+*.a
+*.so
+*.exe
+*.dll
+*.obj
+*.lib
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.filters
+*.vcproj.filters
+*.tlog
+*.ilk
+*.manifest
+*.res
+*.pch
+*.pdb
+*.ipch
+*.iobj
+*.ipdb
+*.tlog
+*.aps
+*.ncb
+*.opt
+*.plg
+*.psess
+*.VS*
+*.vshost.exe
+*.vspscc
+*.vssscc
+*.cache
+*.gpState
+*.VC.db
+*.VC.VC.opendb
+*.VC.tag
+*.VC.VC.opendb-shm
+*.VC.VC.opendb-wal
+
+# Node.js/Docusaurus
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+public/
+.docusaurus/
+.cache/
+.temp/
+.verdaccio/
+.vercel/
+
+# Unity
+# Temp
+*/Temp/*
+*/Obj/*
+*/Build/*
+*/Builds/*
+*/Library/*
+*/Logs/*
+*/MemoryCaptures/*
+
+# User-specific
+*/.userprefs
+*/.userlayout
+*/.tmp
+
+# Asset meta data
+*.meta
+
+# Unity package manager
+Packages/manifest.json
+Packages/packages-lock.json
+
+# Unity collab
+CollabInstance/
+ProjectSettings/ProjectVersion.txt
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.com.apple.receipts.bom
+.com.apple.receipts.plist
+.com.apple.timemachine.supported
+.Preview Thumbnails
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[DS_Store]
+Desktop.ini
+desktop.ini
+*.nfs
+*~.tmp
+*~.bak
+*~.swp
+*~.swo
+*~
+*.tmp
+*.bak
+*.old
+*.orig
+*.rej
+*.pyc
+*.pyo
+*~
+
+# Linux
+*~
+*.swp
+*.swo
+*~
+
+# Editor and IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env*
+.env.local
+.env.dev
+.env.prod
+
+# Docker
+.dockerignore
+*.dockerignore
+
+# Documentation
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+
+# Simulation and Robotics specific
+*.gazebo
+.gazebo/
+.gazebo-*
+.ignition/
+.ign/
+isaac-sim/
+isaac_sim/
+isaac_ros/
+
+# Build artifacts
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin

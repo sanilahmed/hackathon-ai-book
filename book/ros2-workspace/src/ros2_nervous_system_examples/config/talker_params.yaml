@@ -1,0 +1,22 @@
+/**:
+  ros__parameters:
+    # Talker node parameters
+    talker:
+      ros__parameters:
+        publish_frequency: 2  # Hz
+        message_prefix: "Hello World"
+        count_offset: 0
+
+    # Listener node parameters
+    listener:
+      ros__parameters:
+        message_queue_size: 10
+
+    # AI Perception node parameters
+    ai_perception_node:
+      ros__parameters:
+        detection_threshold: 0.5
+        min_object_area: 1000
+        obstacle_distance_threshold: 1.0
+        linear_velocity: 0.3
+        angular_velocity: 0.5

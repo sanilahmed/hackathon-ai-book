@@ -1,0 +1,31 @@
+# Joint names for the humanoid robot
+humanoid_joint_names:
+  - neck_joint
+  - left_shoulder_joint
+  - left_elbow_joint
+  - left_wrist_joint
+  - right_shoulder_joint
+  - right_elbow_joint
+  - right_wrist_joint
+  - left_hip_joint
+  - left_knee_joint
+  - left_ankle_joint
+  - right_hip_joint
+  - right_knee_joint
+  - right_ankle_joint
+
+# Default joint positions (in radians)
+humanoid_default_positions:
+  neck_joint: 0.0
+  left_shoulder_joint: 0.0
+  left_elbow_joint: 0.0
+  left_wrist_joint: 0.0
+  right_shoulder_joint: 0.0
+  right_elbow_joint: 0.0
+  right_wrist_joint: 0.0
+  left_hip_joint: 0.0
+  left_knee_joint: 0.0
+  left_ankle_joint: 0.0
+  right_hip_joint: 0.0
+  right_knee_joint: 0.0
+  right_ankle_joint: 0.0

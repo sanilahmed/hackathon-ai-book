@@ -1,0 +1,25 @@
+/**:
+  ros__parameters:
+    # C++ Talker node parameters
+    talker_cpp:
+      ros__parameters:
+        publish_frequency: 2  # Hz
+        message_prefix: "Hello from C++"
+        count_offset: 0
+
+    # C++ Listener node parameters
+    listener_cpp:
+      ros__parameters:
+        message_queue_size: 10
+
+    # C++ Service parameters
+    service_server_cpp:
+      ros__parameters:
+        timeout: 10.0
+        max_connections: 10
+
+    # C++ Action parameters
+    action_server_cpp:
+      ros__parameters:
+        max_execution_time: 60.0
+        feedback_rate: 1.0  # Hz

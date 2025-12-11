@@ -1,0 +1,369 @@
+# OpenAPI Specification for Physical AI & Humanoid Robotics Educational System
+
+openapi: 3.0.0
+info:
+  title: Physical AI & Humanoid Robotics Educational System API
+  description: API for educational content, lab validation, and student progress tracking for the Physical AI & Humanoid Robotics technical book
+  version: 1.0.0
+
+paths:
+  /modules:
+    get:
+      summary: Get all educational modules
+      description: Retrieve the list of all 4 educational modules in the book
+      responses:
+        '200':
+          description: List of educational modules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningModule'
+
+  /modules/{moduleId}:
+    get:
+      summary: Get specific module details
+      description: Retrieve detailed information about a specific educational module
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          description: ID of the module to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detailed information about the module
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningModule'
+        '404':
+          description: Module not found
+
+  /modules/{moduleId}/labs:
+    get:
+      summary: Get labs for a specific module
+      description: Retrieve all lab exercises for a specific module
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          description: ID of the module
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of lab exercises for the module
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LabExercise'
+
+  /modules/{moduleId}/labs/{labId}/validate:
+    post:
+      summary: Validate lab completion
+      description: Validate whether a student has completed a lab exercise correctly
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          description: ID of the module
+          schema:
+            type: string
+        - name: labId
+          in: path
+          required: true
+          description: ID of the lab exercise
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabValidationRequest'
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabValidationResponse'
+        '400':
+          description: Invalid request or validation failure
+
+  /citations:
+    get:
+      summary: Get all citations
+      description: Retrieve all verified citations used in the book
+      parameters:
+        - name: type
+          in: query
+          description: Filter citations by type (academic, peer-reviewed, official-documentation, book, standard)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of citations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Citation'
+
+  /glossary:
+    get:
+      summary: Get glossary terms
+      description: Retrieve all terms in the robotics and AI glossary
+      responses:
+        '200':
+          description: List of glossary terms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GlossaryTerm'
+
+  /progress:
+    post:
+      summary: Track student progress
+      description: Record a student's progress through the educational modules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentProgress'
+      responses:
+        '200':
+          description: Progress successfully recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentProgress'
+
+components:
+  schemas:
+    LearningModule:
+      type: object
+      required:
+        - id
+        - title
+        - moduleNumber
+        - description
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the module
+        title:
+          type: string
+          description: Display title of the module
+        moduleNumber:
+          type: integer
+          description: Number of the module (1-4)
+          minimum: 1
+          maximum: 4
+        description:
+          type: string
+          description: Brief description of the module content
+        objectives:
+          type: array
+          items:
+            type: string
+          description: Learning objectives for the module
+        topics:
+          type: array
+          items:
+            type: string
+          description: Key topics covered in the module
+        estimatedDuration:
+          type: integer
+          description: Estimated time to complete the module in hours
+        languageSupport:
+          type: array
+          items:
+            type: string
+          description: Programming languages covered in examples
+          enum: [Python, C++, TypeScript]
+        learningOutcomes:
+          type: array
+          items:
+            type: string
+          description: Specific outcomes students should achieve
+
+    LabExercise:
+      type: object
+      required:
+        - id
+        - title
+        - description
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the lab
+        title:
+          type: string
+          description: Descriptive title of the lab exercise
+        description:
+          type: string
+          description: Brief overview of the lab exercise
+        objectives:
+          type: array
+          items:
+            type: string
+          description: What students will learn from this lab
+        prerequisites:
+          type: array
+          items:
+            type: string
+          description: What students need before starting
+        environmentRequirements:
+          type: array
+          items:
+            type: string
+          description: Software, hardware requirements
+        stepByStepInstructions:
+          type: array
+          items:
+            type: string
+          description: Detailed steps to complete the lab
+        expectedOutput:
+          type: string
+          description: What students should see when completed correctly
+        estimatedDuration:
+          type: integer
+          description: Estimated time to complete the lab in minutes
+
+    Citation:
+      type: object
+      required:
+        - id
+        - type
+        - title
+        - publication
+        - year
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the citation
+        type:
+          type: string
+          description: Type of citation
+          enum: [academic, peer-reviewed, official-documentation, book, standard]
+        title:
+          type: string
+          description: Title of the cited work
+        authors:
+          type: array
+          items:
+            type: string
+          description: List of authors
+        publication:
+          type: string
+          description: Journal, conference, or publisher
+        year:
+          type: integer
+          description: Publication year
+        doi:
+          type: string
+          description: Digital Object Identifier
+        url:
+          type: string
+          description: URL to the source
+        accessedDate:
+          type: string
+          format: date
+          description: Date when the source was accessed (ISO format)
+        relevance:
+          type: string
+          description: Explanation of how this citation is relevant to the content
+
+    GlossaryTerm:
+      type: object
+      required:
+        - id
+        - term
+        - definition
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the term
+        term:
+          type: string
+          description: The term being defined
+        definition:
+          type: string
+          description: Clear, concise definition
+        relatedTerms:
+          type: array
+          items:
+            type: string
+          description: Other related glossary terms
+
+    LabValidationRequest:
+      type: object
+      required:
+        - studentId
+        - submission
+      properties:
+        studentId:
+          type: string
+          description: Unique identifier for the student
+        submission:
+          type: object
+          description: The student's lab submission for validation
+          additionalProperties: true
+
+    LabValidationResponse:
+      type: object
+      required:
+        - isValid
+        - feedback
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the lab submission is valid
+        feedback:
+          type: string
+          description: Feedback on the submission
+        score:
+          type: number
+          format: float
+          description: Numerical score for the submission (0.0-1.0)
+
+    StudentProgress:
+      type: object
+      required:
+        - studentId
+        - moduleId
+        - status
+      properties:
+        studentId:
+          type: string
+          description: Unique identifier for the student
+        moduleId:
+          type: string
+          description: ID of the module being tracked
+        status:
+          type: string
+          description: Current status of the student in the module
+          enum: [not-started, in-progress, completed, validated]
+        completionPercentage:
+          type: number
+          format: float
+          description: Percentage of module completed (0.0-1.0)
+        lastAccessed:
+          type: string
+          format: date-time
+          description: Timestamp of last access
+        completedLabs:
+          type: array
+          items:
+            type: string
+          description: IDs of completed lab exercises

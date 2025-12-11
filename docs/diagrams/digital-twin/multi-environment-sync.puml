@@ -1,0 +1,61 @@
+@startuml Multi-Environment Synchronization
+
+!theme plain
+
+title Multi-Environment Synchronization in Digital Twin
+
+package "Time Synchronization" {
+  component "Clock Publisher" as clock_pub #LightBlue
+  component "use_sim_time" as sim_time #LightBlue
+  component "Time Coordinator" as time_coord #LightBlue
+}
+
+package "State Synchronization" {
+  component "Joint State Publisher" as jsp #LightGreen
+  component "TF Broadcaster" as tfb #LightGreen
+  component "State Sync Manager" as state_sync #LightGreen
+}
+
+package "Gazebo Environment" {
+  component "Physics State" as gz_state #LightCyan
+  component "Sensor Data" as gz_sensor #LightCyan
+  component "Actuator Commands" as gz_act #LightCyan
+}
+
+package "Unity Environment" {
+  component "Visual State" as unity_state #LightYellow
+  component "Perception Data" as unity_percep #LightYellow
+  component "Animation System" as unity_anim #LightYellow
+}
+
+package "ROS 2 System" {
+  component "Joint States" as ros_joints #LightPink
+  component "TF Tree" as ros_tf #LightPink
+  component "Sensor Topics" as ros_sensor #LightPink
+}
+
+clock_pub --> sim_time : "synchronizes time"
+time_coord --> clock_pub : "controls simulation time"
+time_coord --> gz_state : "coordinates time"
+time_coord --> unity_state : "coordinates time"
+
+jsp --> state_sync : "publishes joint states"
+tfb --> state_sync : "publishes transforms"
+state_sync --> ros_joints : "synchronizes joints"
+state_sync --> ros_tf : "synchronizes transforms"
+
+ros_joints --> gz_state : "updates physics"
+ros_joints --> unity_state : "updates visuals"
+ros_tf --> gz_state : "updates transforms"
+ros_tf --> unity_state : "updates transforms"
+
+gz_sensor --> ros_sensor : "publishes sensor data"
+ros_sensor --> unity_percep : "sends to perception"
+unity_percep --> ros_sensor : "publishes perception data"
+
+gz_act --> gz_state : "applies actuator commands"
+unity_anim --> unity_state : "applies animations"
+
+note bottom : "All environments maintain synchronized state\nusing ROS 2 topics and time coordination"
+
+@enduml

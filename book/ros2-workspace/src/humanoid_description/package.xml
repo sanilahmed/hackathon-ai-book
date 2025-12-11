@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>humanoid_description</name>
+  <version>0.0.0</version>
+  <description>URDF model for the humanoid robot used in the Physical AI book</description>
+  <maintainer email="maintainer@todo.todo">maintainer</maintainer>
+  <license>TODO: License declaration</license>
+
+  <depend>xacro</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
