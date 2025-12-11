@@ -12,11 +12,12 @@ const config = {
   url: 'https://sanilahmed.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/ai-robotic-book',
+  baseUrl: '/hackathon-ai-book',
 
   // GitHub pages deployment config.
-  organizationName: 'your-org',
-  projectName: 'physical-ai-book',
+  organizationName: 'sanilahmed',
+  projectName: 'hackathon-ai-book',
+  deploymentBranch: 'gh-pages',
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
@@ -36,6 +37,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+
           sidebarPath: './sidebars.js',
           routeBasePath: '/', // Serve docs at root
           // Please change this to your repo.
