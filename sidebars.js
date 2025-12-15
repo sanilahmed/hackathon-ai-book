@@ -103,7 +103,7 @@ const sidebars = {
       type: 'category',
       label: 'Reference',
       items: [
-        'modules/lab-exercises',
+        'modules/lab-exercises/index',
         'reference/glossary',
         'reference/citations'
       ],
