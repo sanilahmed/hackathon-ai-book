@@ -120,7 +120,14 @@ const getBackendUrl = () => {
   }
 
   // For GitHub Pages deployment without backend, return null
+  // Only return null if no custom RAG_API_URL is set (which would be undefined in this case)
+  // If RAG_API_URL was set to a valid external URL, we should use it
   if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
+    // If RAG_API_URL is set to a valid external URL (not localhost), return it
+    if (window.RAG_API_URL && window.RAG_API_URL !== 'http://localhost:8000' &&
+        !window.RAG_API_URL.includes('github.io')) {
+      return window.RAG_API_URL;
+    }
     return null; // Disable chatbot backend calls on GitHub Pages without backend
   }
 
