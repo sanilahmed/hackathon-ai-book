@@ -23,7 +23,7 @@ const config = {
     // Example: 'https://your-app-name.onrender.com' or 'https://your-app-name.herokuapp.com'
     // Or use a local tunnel service like ngrok: 'https://xxxx-xx-xxx-xxx-xxx.ngrok.io'
     // When deploying to GitHub Pages without backend, this will show appropriate messages
-    RAG_API_URL: 'https://sanilahmed.github.io/hackathon-ai-book/', // Special handling for GitHub Pages
+    RAG_API_URL: null, // Set to null for GitHub Pages without backend, or your public backend URL
   },
 
   // GitHub pages deployment config.
