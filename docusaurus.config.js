@@ -23,7 +23,7 @@ const config = {
     // Example: 'https://your-app-name.onrender.com' or 'https://your-app-name.herokuapp.com'
     // Or use a local tunnel service like ngrok: 'https://xxxx-xx-xxx-xxx-xxx.ngrok.io'
     // When deploying to GitHub Pages without backend, this will show appropriate messages
-    RAG_API_URL: null, // Set to null for GitHub Pages without backend, or your public backend URL
+    RAG_API_URL: 'https://sanilahmed2019-backend-deploy.hf.space', // Set to null for GitHub Pages without backend, or your public backend URL
   },
 
   // GitHub pages deployment config.
@@ -65,17 +65,6 @@ const config = {
     ],
   ],
 
-  plugins: [
-    // Include our custom client module to expose custom fields to the browser
-    async function customFieldsPlugin() {
-      return {
-        name: 'custom-fields-plugin',
-        getClientModules() {
-          return [require.resolve('./src/client-modules.js')];
-        },
-      };
-    },
-  ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
