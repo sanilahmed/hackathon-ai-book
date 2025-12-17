@@ -109,7 +109,9 @@ const isChatbotEnabled = () => {
  */
 const getBackendUrl = () => {
   // Check if RAG_API_URL is available from Docusaurus config
-  if (typeof window !== 'undefined' && window.RAG_API_URL && window.RAG_API_URL !== 'null' && window.RAG_API_URL !== 'https://your-backend-api-url.com') {
+  if (typeof window !== 'undefined' && window.RAG_API_URL && window.RAG_API_URL !== 'null' &&
+      window.RAG_API_URL !== 'https://your-backend-api-url.com' &&
+      window.RAG_API_URL !== 'https://sanilahmed.github.io/hackathon-ai-book/') {
     // If it's the localhost default but we're on GitHub Pages, return null
     if (window.RAG_API_URL === 'http://localhost:8000' && window.location.hostname.includes('github.io')) {
       return null; // Disable chatbot backend calls on GitHub Pages with localhost URL
