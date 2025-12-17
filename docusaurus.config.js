@@ -22,7 +22,8 @@ const config = {
     // For GitHub Pages deployment: use your publicly hosted backend API URL
     // Example: 'https://your-app-name.onrender.com' or 'https://your-app-name.herokuapp.com'
     // Or use a local tunnel service like ngrok: 'https://xxxx-xx-xxx-xxx-xxx.ngrok.io'
-    RAG_API_URL: 'http://localhost:8000', // Change this to your public backend URL before deploying to GitHub Pages
+    // When deploying to GitHub Pages without backend, this will show appropriate messages
+    RAG_API_URL: 'https://sanilahmed.github.io/hackathon-ai-book/', // Special handling for GitHub Pages
   },
 
   // GitHub pages deployment config.
