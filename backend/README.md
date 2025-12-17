@@ -1,57 +1,32 @@
-# Book Content Ingestor & RAG Verification
+---
+title: Backend Deploy
+emoji: 🚀
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
 
-A system to extract content from Docusaurus-based book websites, chunk and embed it using Cohere, store embeddings in Qdrant Cloud for RAG applications, and verify the retrieval pipeline functionality.
+# RAG Agent and API Layer
 
-## Setup
+This is a FastAPI application that provides a question-answering API using Gemini agents and Qdrant retrieval for RAG (Retrieval Augmented Generation) functionality.
 
-1. Install dependencies using uv:
-```bash
-cd backend
-uv sync
-```
+## API Endpoints
 
-2. Create a `.env` file with your API keys:
-```bash
-cp .env.example .env
-# Edit .env with your actual API keys
-```
+- `GET /` - Root endpoint with API information
+- `POST /ask` - Main question-answering endpoint
+- `GET /health` - Health check endpoint
+- `GET /ready` - Readiness check endpoint
+- `/docs` - API documentation (Swagger UI)
+- `/redoc` - API documentation (Redoc)
 
-## Environment Variables
+## Configuration
 
-- `COHERE_API_KEY`: Your Cohere API key
-- `QDRANT_URL`: Your Qdrant Cloud URL
-- `QDRANT_API_KEY`: Your Qdrant API key
-- `QDRANT_COLLECTION_NAME`: Name of the collection to use (default: "rag_embedding")
+The application requires the following environment variables:
+- `GEMINI_API_KEY` - API key for Google Gemini
+- `QDRANT_URL` - URL for Qdrant vector database
+- `QDRANT_API_KEY` - API key for Qdrant database
 
-## Usage
+## Deployment
 
-### Run the ingestion pipeline:
-```bash
-cd backend
-uv run python main.py
-```
-
-This will:
-1. Collect all URLs from the target book (https://sanilahmed.github.io/hackathon-ai-book/)
-2. Extract text content from each URL
-3. Chunk the content into fixed-size segments
-4. Generate embeddings using Cohere
-5. Store embeddings with metadata in Qdrant Cloud collection named "rag_embedding"
-
-### Run the verification pipeline:
-```bash
-cd backend
-python -m verify_retrieval.main
-```
-
-Or with specific options:
-```bash
-python -m verify_retrieval.main --query "transformer architecture in NLP" --top-k 10
-```
-
-The verification system will:
-1. Load vectors and metadata stored in Qdrant from the original ingestion
-2. Implement retrieval functions to query Qdrant using sample keywords or phrases
-3. Validate that retrieved chunks are accurate and relevant
-4. Check that metadata (URL, title, chunk_id) matches source content
-5. Log results and confirm the pipeline executes end-to-end without errors
+This application is configured for deployment on Hugging Face Spaces using Docker.

@@ -244,3 +244,8 @@ async def readiness_check() -> Dict[str, str]:
         return {"status": "ready"}
     else:
         raise HTTPException(status_code=503, detail="Service not ready")
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
