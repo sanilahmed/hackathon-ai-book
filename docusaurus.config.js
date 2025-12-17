@@ -15,8 +15,14 @@ const config = {
   baseUrl: '/hackathon-ai-book',
 
   // Custom fields for the RAG chatbot
+  // NOTE: For GitHub Pages deployment, you need a publicly accessible backend API
+  // Use your public backend URL when deploying to GitHub Pages
   customFields: {
-    RAG_API_URL: 'http://localhost:8000',
+    // For local development: 'http://localhost:8000'
+    // For GitHub Pages deployment: use your publicly hosted backend API URL
+    // Example: 'https://your-app-name.onrender.com' or 'https://your-app-name.herokuapp.com'
+    // Or use a local tunnel service like ngrok: 'https://xxxx-xx-xxx-xxx-xxx.ngrok.io'
+    RAG_API_URL: 'http://localhost:8000', // Change this to your public backend URL before deploying to GitHub Pages
   },
 
   // GitHub pages deployment config.

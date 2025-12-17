@@ -105,14 +105,33 @@ const isChatbotEnabled = () => {
 
 /**
  * Get the backend API URL
- * @returns {string} Backend API URL
+ * @returns {string|null} Backend API URL or null if not available
  */
 const getBackendUrl = () => {
   // Check if RAG_API_URL is available from Docusaurus config
-  if (typeof window !== 'undefined' && window.RAG_API_URL) {
+  if (typeof window !== 'undefined' && window.RAG_API_URL && window.RAG_API_URL !== 'null' && window.RAG_API_URL !== 'https://your-backend-api-url.com') {
+    // If it's the localhost default but we're on GitHub Pages, return null
+    if (window.RAG_API_URL === 'http://localhost:8000' && window.location.hostname.includes('github.io')) {
+      return null; // Disable chatbot backend calls on GitHub Pages with localhost URL
+    }
     return window.RAG_API_URL;
   }
+
+  // For GitHub Pages deployment without backend, return null
+  if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
+    return null; // Disable chatbot backend calls on GitHub Pages without backend
+  }
+
   return getConfigValue('BACKEND_URL', 'http://localhost:8000');
+};
+
+/**
+ * Check if backend API is available
+ * @returns {boolean} Whether the backend API is accessible
+ */
+const isBackendAvailable = () => {
+  const backendUrl = getBackendUrl();
+  return backendUrl !== null && backendUrl !== 'http://localhost:8000' && !backendUrl.includes('your-backend-api-url.com');
 };
 
 export {
@@ -121,5 +140,6 @@ export {
   getConfigValue,
   getFullConfig,
   isChatbotEnabled,
-  getBackendUrl
+  getBackendUrl,
+  isBackendAvailable
 };

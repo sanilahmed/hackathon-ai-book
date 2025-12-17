@@ -18,7 +18,10 @@
     "start-both": "bash start_systems.sh",
     "start-backend": "bash start_systems.sh backend",
     "start-frontend": "bash start_systems.sh frontend",
-    "start-local": "bash start_local.sh"
+    "start-local": "bash start_local.sh",
+    "start-app": "bash start_app.sh",
+    "start-app:backend": "bash start_app.sh backend",
+    "start-app:frontend": "bash start_app.sh frontend"
   },
   "dependencies": {
     "@docusaurus/core": "3.1.0",
