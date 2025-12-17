@@ -1,0 +1,34 @@
+[project]
+name = "book_ingestor"
+version = "0.1.0"
+description = "A system to extract content from Docusaurus-based book websites, chunk and embed it using Cohere, and store embeddings in Qdrant Cloud for RAG applications"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "cohere>=4.9.0",
+    "qdrant-client>=1.7.0",
+    "python-dotenv>=1.0.0",
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "openai>=1.0.0",
+    "pydantic>=2.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+book-ingestor = "main:main"
+
+[tool.setuptools]
+py-modules = ["main", "test_ingestion"]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]

@@ -1,0 +1,57 @@
+# Book Content Ingestor & RAG Verification
+
+A system to extract content from Docusaurus-based book websites, chunk and embed it using Cohere, store embeddings in Qdrant Cloud for RAG applications, and verify the retrieval pipeline functionality.
+
+## Setup
+
+1. Install dependencies using uv:
+```bash
+cd backend
+uv sync
+```
+
+2. Create a `.env` file with your API keys:
+```bash
+cp .env.example .env
+# Edit .env with your actual API keys
+```
+
+## Environment Variables
+
+- `COHERE_API_KEY`: Your Cohere API key
+- `QDRANT_URL`: Your Qdrant Cloud URL
+- `QDRANT_API_KEY`: Your Qdrant API key
+- `QDRANT_COLLECTION_NAME`: Name of the collection to use (default: "rag_embedding")
+
+## Usage
+
+### Run the ingestion pipeline:
+```bash
+cd backend
+uv run python main.py
+```
+
+This will:
+1. Collect all URLs from the target book (https://sanilahmed.github.io/hackathon-ai-book/)
+2. Extract text content from each URL
+3. Chunk the content into fixed-size segments
+4. Generate embeddings using Cohere
+5. Store embeddings with metadata in Qdrant Cloud collection named "rag_embedding"
+
+### Run the verification pipeline:
+```bash
+cd backend
+python -m verify_retrieval.main
+```
+
+Or with specific options:
+```bash
+python -m verify_retrieval.main --query "transformer architecture in NLP" --top-k 10
+```
+
+The verification system will:
+1. Load vectors and metadata stored in Qdrant from the original ingestion
+2. Implement retrieval functions to query Qdrant using sample keywords or phrases
+3. Validate that retrieved chunks are accurate and relevant
+4. Check that metadata (URL, title, chunk_id) matches source content
+5. Log results and confirm the pipeline executes end-to-end without errors

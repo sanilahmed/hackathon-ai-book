@@ -14,6 +14,11 @@ const config = {
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/hackathon-ai-book',
 
+  // Custom fields for the RAG chatbot
+  customFields: {
+    RAG_API_URL: 'http://localhost:8000',
+  },
+
   // GitHub pages deployment config.
   organizationName: 'sanilahmed',
   projectName: 'hackathon-ai-book',

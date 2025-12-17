@@ -1,0 +1,16 @@
+README.md
+main.py
+pyproject.toml
+test_ingestion.py
+book_ingestor.egg-info/PKG-INFO
+book_ingestor.egg-info/SOURCES.txt
+book_ingestor.egg-info/dependency_links.txt
+book_ingestor.egg-info/entry_points.txt
+book_ingestor.egg-info/requires.txt
+book_ingestor.egg-info/top_level.txt
+tests/test_agent.py
+tests/test_api.py
+tests/test_grounding.py
+tests/test_integration.py
+tests/test_retrieval.py
+tests/test_verification.py

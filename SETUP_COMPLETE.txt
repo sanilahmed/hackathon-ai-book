@@ -1,0 +1,29 @@
+🎉 SETUP COMPLETE! 🎉
+
+Both frontend and backend are now properly configured and ready to run!
+
+## Quick Start Command:
+```bash
+cd /mnt/d/Hackathon/Book
+./setup_and_start.sh
+```
+
+This will:
+✅ Start the FastAPI backend on http://localhost:8000
+✅ Start the Docusaurus frontend on http://localhost:3000
+✅ Both servers will run together automatically
+
+## What's Working:
+✓ Backend: FastAPI server with /ask and /health endpoints
+✓ Frontend: Docusaurus with integrated RAG chatbot
+✓ All dependencies installed and configured
+✓ Environment variables already set up
+✓ API keys configured in backend/.env
+
+## Visit:
+- Backend API: http://localhost:8000/docs for API documentation
+- Frontend UI: http://localhost:3000 to use the chatbot
+
+You can now ask questions about the book content and get AI-generated answers with source citations!
+
+For detailed instructions, see: STARTUP_INSTRUCTIONS.md

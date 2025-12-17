@@ -1,0 +1,42 @@
+/**
+ * Styles for the source attribution component
+ */
+.sourceAttribution {
+  border-top: 1px dashed var(--border-color);
+  padding-top: 8px;
+}
+
+.sourceAttribution__title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.sourceAttribution__list {
+  margin: 0;
+  padding-left: 16px;
+  list-style: disc;
+}
+
+.sourceAttribution__item {
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.sourceAttribution__link {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.sourceAttribution__link:hover {
+  text-decoration: underline;
+}
+
+.sourceAttribution__page {
+  font-size: 11px;
+  color: var(--text-secondary);
+  opacity: 0.8;
+  margin-left: 4px;
+}

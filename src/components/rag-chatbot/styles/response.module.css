@@ -1,0 +1,22 @@
+/**
+ * Styles for the response renderer component
+ */
+.responseRenderer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.responseRenderer__answer {
+  line-height: 1.5;
+}
+
+.responseRenderer__sources {
+  margin-top: 8px;
+}
+
+.responseRenderer__confidence {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}

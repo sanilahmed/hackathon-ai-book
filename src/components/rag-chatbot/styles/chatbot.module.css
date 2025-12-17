@@ -1,0 +1,203 @@
+/* Main chatbot container styles */
+.chatbot {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  position: fixed;
+  z-index: 9999;
+  min-width: 50px;
+  min-height: 50px;
+  width: fit-content;
+  height: fit-content;
+}
+
+/* Positioning classes */
+.chatbot--bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+.chatbot--bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.chatbot--top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.chatbot--top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.chatbot--side {
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+/* Theme classes */
+.chatbot--light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent-color: #007cba;
+  --error-color: #e74c3c;
+  --success-color: #2ecc71;
+  --user-bubble: #007cba;
+  --user-text: #ffffff;
+  --bot-bubble: #f0f0f0;
+  --bot-text: #333333;
+}
+
+.chatbot--dark {
+  --bg-primary: #2d3748;
+  --bg-secondary: #4a5568;
+  --text-primary: #f7fafc;
+  --text-secondary: #a0aec0;
+  --border-color: #4a5568;
+  --accent-color: #63b3ed;
+  --error-color: #fc8181;
+  --success-color: #68d391;
+  --user-bubble: #63b3ed;
+  --user-text: #ffffff;
+  --bot-bubble: #4a5568;
+  --bot-text: #f7fafc;
+}
+
+/* Toggle button when chat is CLOSED (circular) */
+.chatbot__toggleClosed {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--accent-color);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 10001;
+  pointer-events: auto;
+  font-weight: bold;
+}
+
+/* Positioning for closed toggle button */
+.chatbot__toggleClosed.chatbot--bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+.chatbot__toggleClosed.chatbot--bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.chatbot__toggleClosed.chatbot--top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.chatbot__toggleClosed.chatbot--top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.chatbot__toggleClosed.chatbot--side {
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+.chatbot__toggleClosed:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Chat container when open */
+.chatbot__container {
+  width: 350px;
+  height: 500px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 10000;
+}
+
+/* Header with close button */
+.chatbot__header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  z-index: 10001;
+}
+
+.chatbot__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Close button in header */
+.chatbot__closeButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  color: var(--text-primary);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  pointer-events: auto;
+  transition: background-color 0.2s;
+}
+
+.chatbot__closeButton:hover {
+  background-color: color-mix(in srgb, var(--text-primary), transparent 90%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .chatbot__container {
+    width: 300px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chatbot__container {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 8px;
+  }
+
+  .chatbot--bottom-right,
+  .chatbot--bottom-left,
+  .chatbot--top-right,
+  .chatbot--top-left {
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    top: auto;
+  }
+}
