@@ -65,6 +65,18 @@ const config = {
     ],
   ],
 
+  plugins: [
+    // Include our custom client module to expose custom fields to the browser
+    async function customFieldsPlugin() {
+      return {
+        name: 'custom-fields-plugin',
+        getClientModules() {
+          return [require.resolve('./src/client-modules.js')];
+        },
+      };
+    },
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({

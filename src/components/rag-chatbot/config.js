@@ -109,7 +109,7 @@ const isChatbotEnabled = () => {
  */
 const getBackendUrl = () => {
   // Check if RAG_API_URL is available from Docusaurus config
-  if (typeof window !== 'undefined' && window.RAG_API_URL && window.RAG_API_URL !== 'null' &&
+  if (typeof window !== 'undefined' && window.RAG_API_URL !== undefined && window.RAG_API_URL !== 'null' &&
       window.RAG_API_URL !== 'https://your-backend-api-url.com' &&
       window.RAG_API_URL !== 'https://sanilahmed.github.io/hackathon-ai-book/') {
     // If it's the localhost default but we're on GitHub Pages, return null
@@ -133,7 +133,11 @@ const getBackendUrl = () => {
  */
 const isBackendAvailable = () => {
   const backendUrl = getBackendUrl();
-  return backendUrl !== null && backendUrl !== 'http://localhost:8000' && !backendUrl.includes('your-backend-api-url.com');
+  // Backend is available if URL is not null, not localhost, and not placeholder
+  return backendUrl !== null &&
+         backendUrl !== 'http://localhost:8000' &&
+         !backendUrl.includes('your-backend-api-url.com') &&
+         backendUrl !== 'null';
 };
 
 export {
