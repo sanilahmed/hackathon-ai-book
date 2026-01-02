@@ -140,9 +140,9 @@ const getBackendUrl = () => {
  */
 const isBackendAvailable = () => {
   const backendUrl = getBackendUrl();
-  // Backend is available if URL is not null, not localhost, and not placeholder
+  // Backend is available if URL is not null and not placeholder
+  // Allow localhost for local development
   return backendUrl !== null &&
-         backendUrl !== 'http://localhost:8000' &&
          !backendUrl.includes('your-backend-api-url.com') &&
          backendUrl !== 'null';
 };

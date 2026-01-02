@@ -1,44 +1,41 @@
 """
-Google Gemini Agent module for the RAG Agent and API Layer system.
+OpenRouter Agent module for the RAG Agent and API Layer system.
 
-This module provides functionality for creating and managing a Google Gemini agent
+This module provides functionality for creating and managing an OpenRouter agent
 that generates responses based on retrieved context.
 """
 import asyncio
 import logging
 from typing import List, Dict, Any, Optional
-import google.generativeai as genai
+import httpx
 from .config import get_config
 from .schemas import AgentContext, AgentResponse, SourceChunkSchema
 from .utils import format_confidence_score
 
 
-class GeminiAgent:
+class OpenRouterAgent:
     """
-    A class to manage the Google Gemini agent for generating responses based on context.
+    A class to manage the OpenRouter agent for generating responses based on context.
     """
-    def __init__(self, model_name: str = "gemini-2.5-flash"):
+    def __init__(self, model_name: str = "arcee-ai/trinity-mini:free"):
         """
-        Initialize the Google Gemini agent with configuration.
+        Initialize the OpenRouter agent with configuration.
 
         Args:
-            model_name: Name of the Gemini model to use (default: gemini-2.5-flash)
+            model_name: Name of the OpenRouter model to use (default: arcee-ai/trinity-mini:free)
         """
         config = get_config()
-        api_key = config.gemini_api_key
+        api_key = config.openrouter_api_key
 
         if not api_key:
-            raise ValueError("GEMINI_API_KEY environment variable not set")
+            raise ValueError("OPENROUTER_API_KEY environment variable not set")
 
-        # Configure the Gemini client
-        genai.configure(api_key=api_key)
-
-        # Create the generative model instance
-        self.model = genai.GenerativeModel(model_name)
+        self.api_key = api_key
         self.model_name = model_name
+        self.base_url = "https://openrouter.ai/api/v1"
         self.default_temperature = config.default_temperature
 
-        logging.info(f"Gemini agent initialized with model: {model_name}")
+        logging.info(f"OpenRouter agent initialized with model: {model_name}")
 
     async def generate_response(self, context: AgentContext) -> AgentResponse:
         """
@@ -80,23 +77,43 @@ class GeminiAgent:
             # Prepare the user message with the query
             user_message = self._create_user_message(context)
 
-            # For Google Gemini, we need to format the prompt differently
-            # Combine system instructions and user query
-            full_prompt = f"{system_message}\n\n{user_message}"
+            # Prepare the payload for OpenRouter API
+            payload = {
+                "model": self.model_name,
+                "messages": [
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": user_message}
+                ],
+                "temperature": context.source_policy if hasattr(context, 'temperature') else self.default_temperature,
+                "max_tokens": 1000
+            }
 
-            # Generate response from Google Gemini
-            # For async generation, we need to use the appropriate async method
-            chat = self.model.start_chat()
-            response = await chat.send_message_async(
-                full_prompt,
-                generation_config={
-                    "temperature": context.source_policy if hasattr(context, 'temperature') else self.default_temperature,
-                    "max_output_tokens": 1000
+            # Make the API call to OpenRouter
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                headers = {
+                    "Authorization": f"Bearer {self.api_key}",
+                    "Content-Type": "application/json"
                 }
-            )
 
-            # Extract the response text
-            raw_response = response.text if response and hasattr(response, 'text') else str(response)
+                response = await client.post(
+                    f"{self.base_url}/chat/completions",
+                    json=payload,
+                    headers=headers
+                )
+
+                if response.status_code != 200:
+                    logging.error(f"OpenRouter API error: {response.status_code} - {response.text}")
+                    return AgentResponse(
+                        raw_response="I could not find this information in the book.",
+                        used_sources=[],
+                        confidence_score=0.0,
+                        is_valid=False,
+                        validation_details=f"API error: {response.status_code}",
+                        unsupported_claims=[]
+                    )
+
+                response_data = response.json()
+                raw_response = response_data["choices"][0]["message"]["content"]
 
             # If the response indicates no information was found, return the exact message
             if "I could not find this information in the book" in raw_response:
@@ -134,7 +151,7 @@ class GeminiAgent:
             return agent_response
 
         except Exception as e:
-            logging.error(f"Error generating response from Google Gemini agent: {e}", exc_info=True)
+            logging.error(f"Error generating response from OpenRouter agent: {e}", exc_info=True)
             # Return the specific message when there's an error
             return AgentResponse(
                 raw_response="I could not find this information in the book.",
@@ -196,20 +213,6 @@ QUESTION:
             formatted_chunks.append(f"[Chunk {i+1}]\n{chunk.content}\n[/Chunk {i+1}]")
 
         return "\n".join(formatted_chunks)
-
-    def _create_context_messages(self, context: AgentContext) -> List[Dict[str, str]]:
-        """
-        Create context messages from the retrieved chunks.
-        With the new format, context is now provided in the user message,
-        so this method returns an empty list to avoid duplication.
-
-        Args:
-            context: AgentContext containing the query and retrieved context chunks
-
-        Returns:
-            Empty list since context is now in user message
-        """
-        return []
 
     def _identify_used_sources(self, response: str, chunks: List[SourceChunkSchema]) -> List[str]:
         """
@@ -357,7 +360,3 @@ QUESTION:
 
         # In a more sophisticated implementation, you'd validate against the context more rigorously
         return True
-
-
-# Global agent instance (if needed)
-# agent_instance = OpenAIAgent()

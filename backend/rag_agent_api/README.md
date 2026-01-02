@@ -1,17 +1,17 @@
 # RAG Agent and API Layer
 
-A FastAPI-based question-answering system that uses OpenAI Agents and Qdrant retrieval to generate grounded responses based on book content.
+A FastAPI-based question-answering system that uses OpenRouter Agents and Qdrant retrieval to generate grounded responses based on book content.
 
 ## Overview
 
-The RAG Agent and API Layer provides a question-answering API that retrieves relevant content from Qdrant and uses an OpenAI agent to generate accurate, source-grounded responses. The system ensures that all answers are based only on the provided context to prevent hallucinations.
+The RAG Agent and API Layer provides a question-answering API that retrieves relevant content from Qdrant and uses an OpenRouter agent to generate accurate, source-grounded responses. The system ensures that all answers are based only on the provided context to prevent hallucinations.
 
 ## Architecture
 
 The system consists of several key components:
 
 - **FastAPI Application**: Main entry point for the question-answering API
-- **OpenAI Agent**: Generates responses based on retrieved context
+- **OpenRouter Agent**: Generates responses based on retrieved context
 - **Qdrant Retriever**: Retrieves relevant content chunks from Qdrant database
 - **Configuration Manager**: Handles environment variables and settings
 - **Data Models**: Pydantic models for API requests/responses
@@ -22,7 +22,7 @@ The system consists of several key components:
 ### Prerequisites
 
 - Python 3.9+
-- OpenAI API key
+- OpenRouter API key
 - Qdrant Cloud instance with book content embeddings
 - Cohere API key (for query embeddings)
 
@@ -42,7 +42,7 @@ The system consists of several key components:
 
 3. Edit `.env` with your API keys and configuration:
    ```env
-   OPENAI_API_KEY=your-openai-api-key-here
+   OPENROUTER_API_KEY=your-openrouter-api-key-here
    QDRANT_URL=your-qdrant-instance-url
    QDRANT_API_KEY=your-qdrant-api-key
    QDRANT_COLLECTION_NAME=rag_embedding
@@ -103,7 +103,7 @@ Root endpoint with API information.
 
 ### Environment Variables
 
-- `OPENAI_API_KEY`: Your OpenAI API key
+- `OPENROUTER_API_KEY`: Your OpenRouter API key
 - `QDRANT_URL`: URL of your Qdrant instance
 - `QDRANT_API_KEY`: Your Qdrant API key
 - `QDRANT_COLLECTION_NAME`: Name of the collection with book embeddings (default: `rag_embedding`)
@@ -123,8 +123,8 @@ Pydantic models for API request/response schemas.
 ### Schemas (`schemas.py`)
 Additional schemas for internal data structures.
 
-### Agent (`agent.py`)
-OpenAI agent implementation with context injection and response validation.
+### Agent (`openrouter_agent.py`)
+OpenRouter agent implementation with context injection and response validation.
 
 ### Retrieval (`retrieval.py`)
 Qdrant integration for content retrieval with semantic search.
@@ -160,7 +160,7 @@ pytest
 
 # Run specific test files
 pytest tests/test_api.py
-pytest tests/test_agent.py
+pytest tests/test_openrouter_agent.py
 pytest tests/test_retrieval.py
 ```
 

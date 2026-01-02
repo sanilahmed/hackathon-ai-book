@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import Mock, patch, AsyncMock
 from rag_agent_api.main import app, retriever, agent
 from rag_agent_api.retrieval import QdrantRetriever
-from rag_agent_api.agent import OpenAIAgent
+from rag_agent_api.openrouter_agent import OpenRouterAgent
 from rag_agent_api.schemas import SourceChunkSchema, AgentResponse, AgentContext
 
 
@@ -17,13 +17,13 @@ def test_full_query_flow_with_mocked_components():
         'QDRANT_URL': 'http://test-qdrant:6333',
         'QDRANT_API_KEY': 'test-api-key',
         'COHERE_API_KEY': 'test-cohere-key',
-        'OPENAI_API_KEY': 'test-openai-key'
+        'OPENROUTER_API_KEY': 'test-openrouter-key'
     }):
         with patch('rag_agent_api.main.QdrantRetriever') as mock_retriever_class:
-            with patch('rag_agent_api.main.OpenAIAgent') as mock_agent_class:
+            with patch('rag_agent_api.main.OpenRouterAgent') as mock_agent_class:
                 # Create mock instances
                 mock_retriever = Mock(spec=QdrantRetriever)
-                mock_agent = Mock(spec=OpenAIAgent)
+                mock_agent = Mock(spec=OpenRouterAgent)
 
                 # Configure the class mocks to return our instance mocks
                 mock_retriever_class.return_value = mock_retriever
@@ -84,11 +84,11 @@ async def test_agent_context_creation():
         'QDRANT_URL': 'http://test-qdrant:6333',
         'QDRANT_API_KEY': 'test-api-key',
         'COHERE_API_KEY': 'test-cohere-key',
-        'OPENAI_API_KEY': 'test-openai-key'
+        'OPENROUTER_API_KEY': 'test-openrouter-key'
     }):
         with patch('rag_agent_api.retrieval.AsyncQdrantClient') as mock_qdrant_client:
             with patch('rag_agent_api.retrieval.cohere.Client') as mock_cohere_client:
-                with patch('rag_agent_api.agent.AsyncOpenAI'):
+                with patch('rag_agent_api.openrouter_agent.httpx.AsyncClient'):
                     # Mock the Qdrant client
                     mock_qdrant_instance = Mock()
                     mock_qdrant_client.return_value = mock_qdrant_instance
@@ -101,7 +101,7 @@ async def test_agent_context_creation():
 
                     # Initialize components
                     retriever = QdrantRetriever(collection_name="test_collection")
-                    agent = OpenAIAgent(model_name="gpt-4-test")
+                    agent = OpenRouterAgent(model_name="gpt-4-test")
 
                     # Create test chunks
                     test_chunk = SourceChunkSchema(
@@ -145,7 +145,7 @@ def test_health_endpoint_integration():
             assert "services" in data
 
             # Check that services status is included
-            assert "openai" in data["services"]
+            assert "openrouter" in data["services"]
             assert "qdrant" in data["services"]
             assert "agent" in data["services"]
 
@@ -157,11 +157,11 @@ async def test_retrieval_and_agent_integration():
         'QDRANT_URL': 'http://test-qdrant:6333',
         'QDRANT_API_KEY': 'test-api-key',
         'COHERE_API_KEY': 'test-cohere-key',
-        'OPENAI_API_KEY': 'test-openai-key'
+        'OPENROUTER_API_KEY': 'test-openrouter-key'
     }):
         with patch('rag_agent_api.retrieval.AsyncQdrantClient') as mock_qdrant_client:
             with patch('rag_agent_api.retrieval.cohere.Client') as mock_cohere_client:
-                with patch('rag_agent_api.agent.AsyncOpenAI') as mock_openai:
+                with patch('rag_agent_api.openrouter_agent.httpx.AsyncClient') as mock_httpx_client:
                     # Mock the Qdrant client
                     mock_qdrant_instance = Mock()
                     mock_qdrant_client.return_value = mock_qdrant_instance
@@ -172,18 +172,21 @@ async def test_retrieval_and_agent_integration():
                     mock_cohere_client.return_value = mock_cohere_instance
                     mock_cohere_instance.embed.return_value = Mock(embeddings=[[0.1, 0.2, 0.3]])
 
-                    # Mock the OpenAI client
-                    mock_openai_instance = Mock()
-                    mock_openai.return_value = mock_openai_instance
+                    # Mock the httpx client for OpenRouter
+                    mock_httpx_instance = Mock()
+                    mock_httpx_client.return_value.__aenter__.return_value = mock_httpx_instance
                     mock_completion = Mock()
-                    mock_completion.choices = [Mock()]
-                    mock_completion.choices[0].message = Mock()
-                    mock_completion.choices[0].message.content = "This is a test response"
-                    mock_openai_instance.chat.completions.create = AsyncMock(return_value=mock_completion)
+                    mock_completion.json.return_value = {
+                        "choices": [
+                            {"message": {"content": "This is a test response"}}
+                        ]
+                    }
+                    mock_httpx_instance.post = AsyncMock(return_value=mock_completion)
+                    mock_httpx_instance.post.return_value.status_code = 200
 
                     # Initialize components
                     test_retriever = QdrantRetriever(collection_name="test_collection")
-                    test_agent = OpenAIAgent(model_name="gpt-4-test")
+                    test_agent = OpenRouterAgent(model_name="gpt-4-test")
 
                     # Mock the retrieval result
                     mock_chunk = SourceChunkSchema(

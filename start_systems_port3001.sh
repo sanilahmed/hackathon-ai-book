@@ -1,7 +1,8 @@
 #!/bin/bash
-# Comprehensive startup script for RAG Chatbot - Backend and Frontend
+# Comprehensive startup script for RAG Chatbot - Backend and Frontend on Port 3001
+# Use this script when port 3000 is already in use
 
-echo "🚀 Starting RAG Chatbot Systems..."
+echo "🚀 Starting RAG Chatbot Systems on Port 3001..."
 
 # Function to start backend
 start_backend() {
@@ -35,7 +36,7 @@ start_backend() {
 
 # Function to start frontend
 start_frontend() {
-    echo "🌐 Starting Frontend Server..."
+    echo "🌐 Starting Frontend Server on Port 3001..."
     cd /mnt/d/Hackathon/Book
 
     # Install frontend dependencies
@@ -46,13 +47,13 @@ start_frontend() {
     echo "Building Docusaurus site..."
     npm run build > /dev/null 2>&1 || echo "Build had warnings, continuing..."
 
-    # Start the development server with explicit host binding
-    echo "Starting Docusaurus server..."
+    # Start the development server with explicit host binding on port 3001
+    echo "Starting Docusaurus server on port 3001..."
     nohup npx docusaurus start --host 0.0.0.0 --port 3001 > frontend.log 2>&1 &
     FRONTEND_PID=$!
     echo "Frontend started with PID: $FRONTEND_PID"
 
-    echo "✅ Frontend will be running. In cloud environments, you may need to:"
+    echo "✅ Frontend will be running on port 3001. In cloud environments, you may need to:"
     echo "   1. Use the 'Ports' tab to forward port 3001"
     echo "   2. Or use a web preview feature"
     echo "   3. Access through your development platform's interface"
@@ -67,7 +68,7 @@ elif [ "$1" = "frontend" ]; then
     start_frontend
 else
     # Start both systems
-    echo "Starting both Backend and Frontend..."
+    echo "Starting both Backend and Frontend on Port 3001..."
 
     # Start backend first
     start_backend
@@ -83,7 +84,7 @@ else
     start_frontend
 
     echo ""
-    echo "🎉 Both systems are now running!"
+    echo "🎉 Both systems are now running on Port 3001!"
     echo ""
     echo "📍 Backend API: http://localhost:8000"
     echo "📍 API Docs: http://localhost:8000/docs"

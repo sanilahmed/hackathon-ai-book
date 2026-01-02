@@ -1,7 +1,9 @@
 #!/bin/bash
-# Local development startup script for RAG Chatbot
+# Local development startup script for RAG Chatbot - Port 3001
+# Use this script when port 3000 is already in use
 
-echo "🚀 Starting RAG Chatbot - Local Development Mode"
+echo "🚀 Starting RAG Chatbot - Local Development Mode (Port 3001)"
+echo "💡 This script runs the frontend on port 3001 instead of 3000"
 
 # Clean up any existing processes
 echo "🧹 Cleaning up existing processes..."
@@ -33,7 +35,7 @@ else
 fi
 
 # Start frontend in PRODUCTION mode (serve built files) instead of development mode
-echo "🌐 Building and Starting Frontend Server..."
+echo "🌐 Building and Starting Frontend Server on Port 3001..."
 cd /mnt/d/Hackathon/Book
 
 # Clean install frontend dependencies
@@ -50,7 +52,7 @@ fi
 
 echo "✅ Build successful!"
 
-# Serve the built site (this is more reliable than 'npm start' for local access)
+# Serve the built site on port 3001 (this is more reliable than 'npm start' for local access)
 nohup npx docusaurus serve --host 127.0.0.1 --port 3001 > frontend_serve.log 2>&1 &
 FRONTEND_PID=$!
 echo "Frontend served with PID: $FRONTEND_PID"

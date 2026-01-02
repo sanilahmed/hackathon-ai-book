@@ -20,8 +20,8 @@ class Config:
     def __init__(self):
         """Initialize configuration by loading environment variables."""
         self.openai_api_key = os.getenv('OPENAI_API_KEY')
-        self.gemini_api_key = os.getenv('GEMINI_API_KEY')
         self.cohere_api_key = os.getenv('COHERE_API_KEY')
+        self.openrouter_api_key = os.getenv('OPENROUTER_API_KEY')
         self.qdrant_url = os.getenv('QDRANT_URL')
         self.qdrant_api_key = os.getenv('QDRANT_API_KEY')
         self.qdrant_collection_name = os.getenv('QDRANT_COLLECTION_NAME', 'rag_embedding')
@@ -37,6 +37,9 @@ class Config:
             True if all required configuration is valid, False otherwise
         """
         errors = []
+
+        if not self.openrouter_api_key:
+            errors.append("OPENROUTER_API_KEY environment variable not set")
 
         if not self.cohere_api_key:
             errors.append("COHERE_API_KEY environment variable not set")
