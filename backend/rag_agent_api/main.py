@@ -13,7 +13,7 @@ from .config import validate_config, get_config
 from .models import QueryRequest, APIResponse, ErrorResponse, HealthResponse
 from .schemas import AgentResponse, AgentContext
 from .utils import setup_logging, generate_response_id, format_timestamp, create_error_response
-from .agent import GeminiAgent
+from .openrouter_agent import OpenRouterAgent
 from .retrieval import QdrantRetriever
 
 
@@ -41,7 +41,7 @@ setup_logging(config.log_level)
 
 # Global instances
 retriever: Optional[QdrantRetriever] = None
-agent: Optional[GeminiAgent] = None
+agent: Optional[OpenRouterAgent] = None
 
 
 @app.on_event("startup")
@@ -56,10 +56,10 @@ async def startup_event():
 
     # Initialize agent first (this doesn't require async initialization)
     try:
-        agent = GeminiAgent()
-        logging.info("Google Gemini agent initialized successfully")
+        agent = OpenRouterAgent()
+        logging.info("OpenRouter agent initialized successfully")
     except Exception as e:
-        logging.error(f"Failed to initialize Google Gemini agent: {e}")
+        logging.error(f"Failed to initialize OpenRouter agent: {e}")
         raise
 
     # Initialize retriever (async operations will be handled in the methods themselves)

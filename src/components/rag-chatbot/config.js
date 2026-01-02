@@ -133,7 +133,7 @@ const getBackendUrl = () => {
  */
 const isBackendAvailable = () => {
   const backendUrl = getBackendUrl();
-  return backendUrl !== null && backendUrl !== 'http://localhost:8000' && !backendUrl.includes('your-backend-api-url.com');
+  return backendUrl !== null && backendUrl !== 'https://your-backend-api-url.com' && !backendUrl.includes('your-backend-api-url.com');
 };
 
 export {
